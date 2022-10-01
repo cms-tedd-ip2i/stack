@@ -1,0 +1,27 @@
+version: "3"
+services:
+  hv:
+    image: ghcr.io/cdozen/dummy:main
+    links:
+      - mosquitto
+    command: ['python', 'dummy/hv.py', 'hv', 'mosquitto']
+  lv:
+    image: ghcr.io/cdozen/dummy:main
+    links:
+      - mosquitto
+    command: ['python', 'dummy/hv.py', 'lv', 'mosquitto']
+  sensor_1:
+    image: ghcr.io/cdozen/dummy:main
+    links:
+      - mosquitto
+    command: ['python', 'dummy/sensor.py', 'sensor_1', 'mosquitto']
+  #low_voltage:
+  #  image: ghcr.io/janjantestorgan/low_voltage:main
+  #  links:
+  #    - mosquitto
+  #  command: ['python', 'low_voltage/hmp.py', 'lw_volt', 'mosquitto']
+  #  command: ['python3', 'web_server/app_test.py', 'web_server','mosquitto']
+  #  
+ 
+
+
