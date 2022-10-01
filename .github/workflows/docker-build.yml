@@ -40,6 +40,7 @@ jobs:
           name: pull dummy image
           run: | 
             docker pull ${{env.REGISTRY}}/${{github.actor}}/${{env.IMAGE_NAME_DUMMY}}:main 
+            docker pull ${{env.REGISTRY}}/${{github.actor}}/${{env.IMAGE_NAME_LOW_VOLTAGE}}:main 
       #      docker images
       #  -
       #    name: Set up Docker Buildx
