@@ -2,11 +2,11 @@ pyyaml>=6.0, <7.0.0
 pyserial>=3.2
 requests>=2.27.1, <2.28.0
 paho-mqtt>=1.5.1, <1.6.0
-#certifi==2021.10.8      # via influxdb-client
-#influxdb-client==1.21.0  # via trackerdcs (setup.py)
-#python-dateutil==2.8.2 # via influxdb-client
-#pytz==2021.3 # via influxdb-client
-#rx==3.2.0 # via influxdb-client
-#six==1.16.0 # via influxdb-client
-#urllib3==1.26.7 # via influxdb-client python-dateutil
+certifi==2021.10.8      # via influxdb-client
+influxdb-client==1.21.0  # via trackerdcs (setup.py)
+python-dateutil==2.8.2 # via influxdb-client
+pytz==2021.3 # via influxdb-client
+rx==3.2.0 # via influxdb-client
+six==1.16.0 # via influxdb-client
+urllib3==1.26.7 # via influxdb-client python-dateutil
 
