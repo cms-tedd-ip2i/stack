@@ -38,12 +38,7 @@ services:
       - "3000:3000"
     volumes:
       - grafana:/var/lib/grafana
-  #hv:
-  #  image: ghcr.io/cdozen/dummy:main
-  #  restart: always
-  #  links:
-  #    - mosquitto  
-  #  command: ['python', 'dummy/hv.py', 'hv', 'mosquitto']
+
 volumes:
   mosquitto_data:
   mosquitto_log:
