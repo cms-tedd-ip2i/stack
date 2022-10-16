@@ -26,19 +26,14 @@ jobs:
             registry: ${{ env.REGISTRY }}
             username: ${{ github.actor }}
             password: ${{ secrets.GITHUB_TOKEN }}
-        #-
-        #  name: pull dummy image
-        #  run: | 
-        #    docker pull ${{env.REGISTRY}}/${{github.actor}}/${{env.IMAGE_NAME_DUMMY}}:main 
-        #    docker pull ${{env.REGISTRY}}/${{github.actor}}/${{env.IMAGE_NAME_LOW_VOLTAGE}}:main 
-        
+      
         - name: Docker-compose start mqtt and stack 
-        run: |
-          cd docker/tracker_dcs_stack
-          pwd
-          echo "---------------------"
-          ls
-          echo $HOME
-          docker-compose -f docker-compose.yml -f docker-compose.dummy.yml up -d
-          docker ps -a 
-          cd - 
+          run: |
+            cd docker/tracker_dcs_stack
+            pwd
+            echo "---------------------"
+            ls
+            echo $HOME
+            docker-compose -f docker-compose.yml -f docker-compose.dummy.yml up -d
+            docker ps -a 
+            cd - 
