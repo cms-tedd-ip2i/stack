@@ -1,7 +1,6 @@
 [default]
   url = "http://localhost:8086"
-  #token = "DwDFLWApuA1GBJVEJSkMo7qWRccIY9_zcsDTiG9lMPIzqavhjbJoJIBSaA4192xo8x1wBoIBfLqAoKxoo-g3BA=="
-  token = "kNNHL1cOfRNSJ-dhl0caQM-nxlyo63VjkScL-gsE9Dc6pTftEbJ6vuNs3JMkQo6614aRbowsnu8b0mTPLXd6OA=="
+  token = "lr1sopvBQXX1bB7Pp1k0RMPFb15vAvHZ7sKIA7n6cta3mzi20epV_wSzfB-YfNYNfmROyCYUdC1QZFQwpSgC4Q=="
   org = "cms-tedd"
   active = true
 # 
