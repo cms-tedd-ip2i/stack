@@ -6,7 +6,7 @@ services:
       - mosquitto
     command: ['python', 'dummy/hv.py', 'hv', 'mosquitto']
   lv:
-    image: 
+    image: ghcr.io/cms-tedd-ip2i/dummy:main 
     links:
       - mosquitto
     command: ['python', 'dummy/hv.py', 'lv', 'mosquitto']
