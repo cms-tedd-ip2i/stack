@@ -1,8 +1,7 @@
 name: Docker-Stack
 on:
   push:
-    branches:
-      - [dev,main]
+    branches: [dev,main]
     tags:
       - 'v*'
   pull_request:
