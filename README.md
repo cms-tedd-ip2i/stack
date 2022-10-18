@@ -2,14 +2,19 @@
 Stack configuration
 
 docker-compose.yml : production stack for influxdb-grafan-nodered dashboard.
+
 docker-compose.dummy.yml : dummy services for tests, which simulate the behaviour of a high-voltage power supply, a low-voltage power supply, and an environmental sensor. 
+
 the repository images taken directly from github organization
 
-To start the stack:
+
+## To start the stack:
 
 ```
 cd docker/tracker_dcs_stack/
+
 docker compose -f docker-compose.yml -f docker-compose.dummy.yml up -d 
+```
 
 ```
 To check the running services:
