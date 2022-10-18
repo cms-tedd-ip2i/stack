@@ -7,17 +7,21 @@ docker-compose.dummy.yml : dummy services for tests, which simulate the behaviou
 
 the repository images taken directly from github organization
 
+
 ## To start the stack:
+
 ```
 cd docker/tracker_dcs_stack/
 
 docker compose -f docker-compose.yml -f docker-compose.dummy.yml up -d 
 ```
 
+```
 To check the running services:
 ```
 docker compose ps 
 ```
+
 ```
 IMAGE                                  COMMAND                    STATUS         PORTS                              NAMES
 ghcr.io/cdozen/dummy:0.0.1             "python dummy/hv.py …"     Up 3 minutes                                      tracker_dcs_stack-lv-1
@@ -30,4 +34,3 @@ telegraf                               "/entrypoint.sh tele…"     Up 3 minutes
 grafana/grafana                        "/run.sh"                  Up 3 minutes   0.0.0.0:3000->3000/tcp             tracker_dcs_stack-dashboard-1
 
 ```
-
