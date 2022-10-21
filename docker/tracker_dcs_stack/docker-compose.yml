@@ -1,0 +1,69 @@
+version: "3"
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    restart: always
+    ports:
+      - "1883:1883"
+    expose:
+      - "1883"
+    volumes:
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+      - ./mosquitto/config:/mosquitto/config
+  influxdb:
+    image: influxdb:2.0
+    restart: always
+    ports:
+      - "8086:8086"
+    expose:
+      - "8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=dbuser
+      - DOCKER_INFLUXDB_INIT_PASSWORD=password
+      - DOCKER_INFLUXDB_INIT_ORG=cms-tedd
+      - DOCKER_INFLUXDB_INIT_BUCKET=my-bucket  
+    volumes:
+      - influxdb2:/var/lib/influxdb2
+      - ./influxdb/config:/etc/influxdb2
+  telegraf:
+    image: telegraf
+    restart: always
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+  dashboard:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana:/var/lib/grafana
+  web_server:
+    image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.0.1
+    restart: always
+    #stdin_open: true
+    #tty: true
+    # port must be open even in production as it's a webserver open to outside
+    # TODO: setup authentication
+    environment:
+      - APP_USER=cdozen
+      - APP_PASSWORD=test
+    ports:
+      - "8001:8000"
+    expose:
+      - "8001"
+    links:
+      - mosquitto
+    command: ["uvicorn", "tracker_dcs_web.web_server.app:app", "--host", "0.0.0.0"]
+    volumes:
+      - web_server:/code
+
+volumes:
+  mosquitto_data:
+  mosquitto_log:
+  influxdb2:
+  telegraf.conf:
+  grafana:
+  web_server:
+
+
