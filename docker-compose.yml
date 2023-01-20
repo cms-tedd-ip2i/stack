@@ -38,6 +38,8 @@ services:
     depends_on: 
       - mosquitto
       - influxdb
+    environment: 
+      - TRACKER_DCS_INFLUXDB_TOKEN
   # chronograf: 
   #   image: chronograf
   #   ports: 
