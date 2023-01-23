@@ -34,17 +34,16 @@ services:
     image: telegraf
     restart: always
     volumes:
-      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     depends_on: 
       - mosquitto
       - influxdb
-  # chronograf: 
-  #   image: chronograf
-  #   ports: 
-  #     - 8889:8888
-  #   command: ["chronograf", "--influxdb-url=http://influxdb:8086"]
+    environment: 
+      - TRACKER_DCS_INFLUXDB_TOKEN
+    env_file:
+      - my.env
 
-  dashboard:
+  grafana:
     image: grafana/grafana
     ports:
       - "3001:3000"
@@ -78,6 +77,22 @@ services:
     depends_on:
       - mosquitto
 
+  # Dummy modules for testing
+  hv:
+    image: ghcr.io/cms-tedd-ip2i/dummy:0.0.1
+    links:
+      - mosquitto
+    command: [ 'python', 'dummy/hv.py', 'hv', 'mosquitto' ]
+  lv:
+    image: ghcr.io/cms-tedd-ip2i/dummy:0.0.1
+    links:
+      - mosquitto
+    command: [ 'python', 'dummy/hv.py', 'lv', 'mosquitto' ]
+  sensor_1:
+    image: ghcr.io/cms-tedd-ip2i/dummy:0.0.1
+    links:
+      - mosquitto
+    command: [ 'python', 'dummy/sensor.py', 'sensor_1', 'mosquitto' ]
 
 volumes:
   mosquitto_data:
