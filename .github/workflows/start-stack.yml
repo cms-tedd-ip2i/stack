@@ -32,5 +32,6 @@ jobs:
       
         - name: Docker compose start mqtt and stack
           run: |
+            echo "TRACKER_DCS_INFLUXDB_TOKEN=foobar" > my.env 
             docker compose up -d
             docker compose ps
