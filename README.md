@@ -125,7 +125,46 @@ You should see the messages that are being sent by the dummy modules:
 /sensor_1/status {"meas1": -0.9931889975255942, "meas2": 0.9931889975255942}
 ```
 
-You can also submit messages with `mosquitto_pub`. 
+You can also submit messages with `mosquitto_pub`. For help, do: 
+
+```shell
+docker exec stack-mosquitto-1 mosquitto_pub --help 
+```
+
+### InfluxDB
+
+InfluxDB is the time-series database.
+
+* data from the MQTT broker is written to InfluxDB with Telegraf.
+The file [telegraf.conf](telegraf.conf) describes which data to write and how.
+**To add more measurements, you need to edit this file.** 
+* data can be visualized in different ways: 
+  * with python (TODO: write a short documentation for this)
+  * with Grafana
+  * with the InfluxDB dashboard itself as we will see below
+
+Make sure InfluxDB is running with `docker ps` : 
+
+```shell
+6dc67d8562e2   influxdb:2.0  "/entrypoint.sh infl…"   40 hours ago   Up 40 hours   0.0.0.0:8087->8086/tcp  stack-influxdb-1
+```
+
+We see that influxdb exposes port 8087. 
+
+Connect to the InfluxDB dashboard by pointing your browser to 
+[http://localhost:8087](http://localhost:8087).
+
+The username and password are set in [docker-compose.yml](docker-compose.yml) to
+ `dbuser` and `password` respectively. 
+
+**TODO: This needs to change! use env vars**. 
+
+Create your first dashboard by importing a dashboard we have prepared for you,
+as shown below: 
+
+![](doc/images/influxdb_dashboard/import_dashboard.png)
+
+The file to import is [influxdb/dashboards/dummy.json](influxdb/dashboards/dummy.json)
 
 ### Grafana
 
