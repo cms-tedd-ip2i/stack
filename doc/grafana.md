@@ -5,10 +5,12 @@ the InfluxDB data.
 
 To access the dashboard, go to [http://localhost:3001](http://localhost:3001)
 
+By default, the credentials are:
+
 * username : admin
 * password : admin 
 
-Skip the creation of a new password
+If the credentials don't work, ask Colin or Candan what they are. 
 
 ## Prerequisites
 

@@ -26,21 +26,17 @@ Start the InfluxDB service:
 docker compose up -d influxdb
 ```
 
-This will create a configuration file for influxdb, `influxdb/config/influx-configs`, 
-with this content (the token will be different): 
+Extract the generated token to later connect to influxdb from telegraf
+and from grafana: 
 
-```shell
-[default]
-  url = "http://localhost:8086"
-  token = "nGTtMTEsXZlSnz0KOAxbj22f-bAZbAcmOnTSX1q04CjYoZbHKg2Vf-fzb3IxrSgYYuf442ZrDgS8l9WcOOHMSA=="
-  org = "cms-tedd"
-  active = true
+```bash
+docker exec stack-influxdb-1 influx auth list --user dbuser 
 ```
 
 Create a file named `my.env` with this content (make sure to use your own token): 
 
 ```shell  
-TRACKER_DCS_INFLUXDB_TOKEN='nGTtMTEsXZlSnz0KOAxbj22f-bAZbAcmOnTSX1q04CjYoZbHKg2Vf-fzb3IxrSgYYuf442ZrDgS8l9WcOOHMSA=='
+TRACKER_DCS_INFLUXDB_TOKEN=<influxdb_token>
 ```
 
 **WARNING: do not commit this file to git, for security reasons.**

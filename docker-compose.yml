@@ -14,7 +14,7 @@ services:
       - ./mosquitto/config:/mosquitto/config
 
   influxdb:
-    image: influxdb:2.0
+    image: influxdb
     restart: always
     ports:
       - "8087:8086"
@@ -38,8 +38,6 @@ services:
     depends_on: 
       - mosquitto
       - influxdb
-    environment: 
-      - TRACKER_DCS_INFLUXDB_TOKEN
     env_file:
       - my.env
 
