@@ -72,8 +72,9 @@ exits with an error. This is perfectly fine.
 
 On the DAQ PC however, the container must be running.
 
-## Using the services 
- 
+## Using the services
+
+* [SSH tunnel](doc/tunnel.md): Establish an SSH tunnel to access services from outside the lab
 * [Mosquitto](doc/mosquitto.md): The stack message broker
 * [Grafana](doc/grafana.md): The dashboard system
 * [Nodered](doc/nodered.md): To be written...

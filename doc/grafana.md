@@ -159,10 +159,13 @@ Now save your dashboard.
 Dashboards can be exported as json, and imported back later on, 
 even on a different machine. 
 
-To do this, click the share button, and export as JSON 
-(keep Export for sharing externally unchecked). 
+To do this, click the share button, and export as JSON.
+**Check the box "export for sharing externally"**, 
+which will allow you to select the datasource on the other system.
 
 To import a dashboard, use the Dashboards menu. 
+During the import, you need to update the data source uid so that it matches
+the data source on your system (click update, it will be done automatically).
 
 You may commit your dashboards in [../grafana/dashboards](../grafana/dashboards).
 
