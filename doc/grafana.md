@@ -136,10 +136,17 @@ in the same plot. For this, use the Simple query template with this query:
 ```shell
 from(bucket: "my-bucket")
   |> range(start: v.timeRangeStart, stop:v.timeRangeStop)
-  |> filter(fn: (r) =>
-    r._measurement == "sensor_1" 
-  )
+  |> filter(fn: (r) => r._measurement == "sensor_1")
+  |> filter(fn: (r) => r._field =~ /meas.*/)
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
 ```
+
+Note the use of: 
+
+* aggregateWindow: without this, the query will fail if we try and display
+too many points over a long time range
+* the regex filter: without it, aggregateWindow fails. 
 
 ![](images/grafana/panel.png)
 
