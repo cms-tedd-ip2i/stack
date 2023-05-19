@@ -1,0 +1,1009 @@
+[
+    {
+        "id": "4523402e80ab2360",
+        "type": "tab",
+        "label": "power control",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "dd3ecb8b052e2206",
+        "type": "mqtt in",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/status",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "f5b1ac36.5f63b",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 100,
+        "y": 140,
+        "wires": [
+            [
+                "164ed7ee7eaba534",
+                "17ed9c479412b12a"
+            ]
+        ]
+    },
+    {
+        "id": "17ed9c479412b12a",
+        "type": "change",
+        "z": "4523402e80ab2360",
+        "name": "LV_ch1",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[1].vreq",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 80,
+        "wires": [
+            [
+                "ef7451da0b7197a7",
+                "410a22d6eb1afc73"
+            ]
+        ]
+    },
+    {
+        "id": "ef7451da0b7197a7",
+        "type": "ui_gauge",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "group": "817b8eeb75de3086",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "LV_hmp4040_Channel_1",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 550,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "506814ee8d324868",
+        "type": "mqtt out",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/cmd/setv/1",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f5b1ac36.5f63b",
+        "x": 780,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "410a22d6eb1afc73",
+        "type": "ui_slider",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "label": "ch_1",
+        "tooltip": "",
+        "group": "817b8eeb75de3086",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "all",
+        "topic": "",
+        "topicType": "str",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 510,
+        "y": 80,
+        "wires": [
+            [
+                "506814ee8d324868",
+                "00b901a9548f6afa"
+            ]
+        ]
+    },
+    {
+        "id": "164ed7ee7eaba534",
+        "type": "change",
+        "z": "4523402e80ab2360",
+        "name": "LV_ch2",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[2].vreq",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 140,
+        "wires": [
+            [
+                "58273afb7858bb9a",
+                "6dfbd2fdc5af0ee8"
+            ]
+        ]
+    },
+    {
+        "id": "58273afb7858bb9a",
+        "type": "ui_slider",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "label": "ch_2",
+        "tooltip": "",
+        "group": "817b8eeb75de3086",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "all",
+        "topic": "",
+        "topicType": "str",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 510,
+        "y": 140,
+        "wires": [
+            [
+                "00b901a9548f6afa",
+                "a9c7fc6140593486"
+            ]
+        ]
+    },
+    {
+        "id": "00b901a9548f6afa",
+        "type": "debug",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "a9c7fc6140593486",
+        "type": "mqtt out",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/cmd/setv/2",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f5b1ac36.5f63b",
+        "x": 780,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "0380a88c920ccb4c",
+        "type": "function",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "func": "var payload=msg.payload; //get payload\nif (payload==\"msg.payload[1].on\"){\n    return [msg,null];\n    \n}\nif (payload==\"msg.payload[1].off\"){\n    return [null,msg];\n    \n}\n\nif (payload==\"msg.payload[2].on\"){\n    return [msg,null];\n    \n}\nif (payload==\"msg.payload[2].off\"){\n    return [null, msg];\n    \n}",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 380,
+        "wires": [
+            [
+                "5e97d5c7e08b0baf",
+                "0191c954fc6f2bb1"
+            ],
+            [
+                "1d19daf696286e2b"
+            ]
+        ]
+    },
+    {
+        "id": "ab88b2740389206a",
+        "type": "change",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[1].on",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[1].off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 340,
+        "wires": [
+            [
+                "0380a88c920ccb4c"
+            ]
+        ]
+    },
+    {
+        "id": "f98ce7c629d209e7",
+        "type": "change",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[2].on",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[2].off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 420,
+        "wires": [
+            [
+                "0380a88c920ccb4c"
+            ]
+        ]
+    },
+    {
+        "id": "38447b61ef12d73f",
+        "type": "mqtt out",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/cmd/switch/1",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f5b1ac36.5f63b",
+        "x": 1010,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "5e97d5c7e08b0baf",
+        "type": "ui_switch",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "label": "CH1: ON/OFF",
+        "tooltip": "",
+        "group": "817b8eeb75de3086",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "flash_on",
+        "oncolor": "yellow",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "flash_off",
+        "offcolor": "grey",
+        "animate": false,
+        "className": "",
+        "x": 760,
+        "y": 340,
+        "wires": [
+            [
+                "38447b61ef12d73f"
+            ]
+        ]
+    },
+    {
+        "id": "548d4ba26cf1ec00",
+        "type": "mqtt out",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/cmd/switch/2",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f5b1ac36.5f63b",
+        "x": 1010,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "0191c954fc6f2bb1",
+        "type": "ui_switch",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "label": "CH2: ON/OFF",
+        "tooltip": "",
+        "group": "817b8eeb75de3086",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "flash_on",
+        "oncolor": "yellow",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "flash_off",
+        "offcolor": "grey",
+        "animate": false,
+        "className": "",
+        "x": 760,
+        "y": 400,
+        "wires": [
+            [
+                "548d4ba26cf1ec00"
+            ]
+        ]
+    },
+    {
+        "id": "1d19daf696286e2b",
+        "type": "debug",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "ce7da2022f809235",
+        "type": "mqtt in",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/status",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "f5b1ac36.5f63b",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 100,
+        "y": 380,
+        "wires": [
+            [
+                "ab88b2740389206a",
+                "f98ce7c629d209e7"
+            ]
+        ]
+    },
+    {
+        "id": "e4ffef6c915bcd2e",
+        "type": "change",
+        "z": "4523402e80ab2360",
+        "name": "LV_ch3",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[3].vreq",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 660,
+        "wires": [
+            [
+                "5afb3980b3131db4",
+                "b12e1231808fcbed"
+            ]
+        ]
+    },
+    {
+        "id": "5afb3980b3131db4",
+        "type": "ui_gauge",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "group": "ac659638285a013e",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "LV_hmp4040_Channel_3",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 530,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "da9cf629e43d033f",
+        "type": "mqtt out",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/cmd/setv/3",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f5b1ac36.5f63b",
+        "x": 780,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "b12e1231808fcbed",
+        "type": "ui_slider",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "label": "ch_3",
+        "tooltip": "",
+        "group": "ac659638285a013e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "all",
+        "topic": "",
+        "topicType": "str",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 510,
+        "y": 660,
+        "wires": [
+            [
+                "da9cf629e43d033f",
+                "636df67107910644"
+            ]
+        ]
+    },
+    {
+        "id": "69d5e228a1f2d44e",
+        "type": "change",
+        "z": "4523402e80ab2360",
+        "name": "LV_ch4",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[4].vreq",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 320,
+        "y": 720,
+        "wires": [
+            [
+                "6e109e5c479d1d12",
+                "7702b0136c6cfbda"
+            ]
+        ]
+    },
+    {
+        "id": "6e109e5c479d1d12",
+        "type": "ui_gauge",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "group": "ac659638285a013e",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "LV_hmp4040_Channel_4",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 530,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "7702b0136c6cfbda",
+        "type": "ui_slider",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "label": "ch_4",
+        "tooltip": "",
+        "group": "ac659638285a013e",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "all",
+        "topic": "",
+        "topicType": "str",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "className": "",
+        "x": 510,
+        "y": 720,
+        "wires": [
+            [
+                "2ad6900c6a684909",
+                "636df67107910644"
+            ]
+        ]
+    },
+    {
+        "id": "2ad6900c6a684909",
+        "type": "mqtt out",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/cmd/setv/4",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f5b1ac36.5f63b",
+        "x": 780,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "6cc70cc3ebcde3fb",
+        "type": "mqtt in",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/status",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "f5b1ac36.5f63b",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 100,
+        "y": 720,
+        "wires": [
+            [
+                "e4ffef6c915bcd2e",
+                "69d5e228a1f2d44e"
+            ]
+        ]
+    },
+    {
+        "id": "636df67107910644",
+        "type": "debug",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "6f82791c7bc89d04",
+        "type": "function",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "func": "var payload=msg.payload; //get payload\nif (payload==\"msg.payload[3].on\"){\n    return [msg,null];\n    \n}\nif (payload==\"msg.payload[3].off\"){\n    return [null,msg];\n    \n}\n\nif (payload==\"msg.payload[4].on\"){\n    return [msg,null];\n    \n}\nif (payload==\"msg.payload[4].off\"){\n    return [null,msg];\n    \n}",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 940,
+        "wires": [
+            [
+                "3de9cd525327f50a",
+                "56d9d832f64c9fa4"
+            ],
+            [
+                "da1808ee4888f63d"
+            ]
+        ]
+    },
+    {
+        "id": "219c004a9e90442d",
+        "type": "change",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[3].on",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[3].off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 900,
+        "wires": [
+            [
+                "6f82791c7bc89d04"
+            ]
+        ]
+    },
+    {
+        "id": "d563999269d52def",
+        "type": "change",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[4].on",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[4].off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 980,
+        "wires": [
+            [
+                "6f82791c7bc89d04"
+            ]
+        ]
+    },
+    {
+        "id": "734f2534dd363673",
+        "type": "mqtt out",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/cmd/switch/3",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f5b1ac36.5f63b",
+        "x": 1010,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "22f6249cdfdeaa49",
+        "type": "mqtt out",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/cmd/switch/4",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "f5b1ac36.5f63b",
+        "x": 1010,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "3de9cd525327f50a",
+        "type": "ui_switch",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "label": "CH3: ON/OFF",
+        "tooltip": "",
+        "group": "ac659638285a013e",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "flash_on",
+        "oncolor": "yellow",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "flash_off",
+        "offcolor": "grey",
+        "animate": false,
+        "className": "",
+        "x": 760,
+        "y": 900,
+        "wires": [
+            [
+                "734f2534dd363673"
+            ]
+        ]
+    },
+    {
+        "id": "56d9d832f64c9fa4",
+        "type": "ui_switch",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "label": "CH4: ON/OFF",
+        "tooltip": "",
+        "group": "ac659638285a013e",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "payload",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "on",
+        "onvalueType": "str",
+        "onicon": "flash_on",
+        "oncolor": "yellow",
+        "offvalue": "off",
+        "offvalueType": "str",
+        "officon": "flash_off",
+        "offcolor": "grey",
+        "animate": false,
+        "className": "",
+        "x": 760,
+        "y": 960,
+        "wires": [
+            [
+                "22f6249cdfdeaa49"
+            ]
+        ]
+    },
+    {
+        "id": "da1808ee4888f63d",
+        "type": "debug",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "95048ab6ce595cfe",
+        "type": "mqtt in",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "topic": "/hmp4040/status",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "f5b1ac36.5f63b",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 100,
+        "y": 940,
+        "wires": [
+            [
+                "219c004a9e90442d",
+                "d563999269d52def"
+            ]
+        ]
+    },
+    {
+        "id": "6dfbd2fdc5af0ee8",
+        "type": "ui_gauge",
+        "z": "4523402e80ab2360",
+        "name": "",
+        "group": "817b8eeb75de3086",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "LV_hmp4040_Channel_2",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 550,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "f5b1ac36.5f63b",
+        "type": "mqtt-broker",
+        "name": "MQTT",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": 4,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "817b8eeb75de3086",
+        "type": "ui_group",
+        "name": "HMP4040_ch1_ch2",
+        "tab": "48b344b7.f0736c",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ac659638285a013e",
+        "type": "ui_group",
+        "name": "HMP4040_ch3_ch4",
+        "tab": "48b344b7.f0736c",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "48b344b7.f0736c",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
