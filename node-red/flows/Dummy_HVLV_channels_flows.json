@@ -1,6 +1,6 @@
 [
     {
-        "id": "1f13f81bdb95ce4d",
+        "id": "a70d564f299b1a24",
         "type": "tab",
         "label": "multichannel_flow",
         "disabled": false,
@@ -8,9 +8,9 @@
         "env": []
     },
     {
-        "id": "c71ca8772b14093c",
+        "id": "31a266507861a81a",
         "type": "debug",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -25,9 +25,9 @@
         "wires": []
     },
     {
-        "id": "2c56d4f4582b7f7a",
+        "id": "af51259ca4c7177a",
         "type": "function",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "func": "var payload=msg.payload; //get payload\nif (payload==\"msg.payload[0].on\"){\n    return [msg,null];\n    \n}\nif (payload==\"msg.payload[0].off\"){\n    return [null,msg];\n    \n}",
         "outputs": 2,
@@ -39,18 +39,18 @@
         "y": 140,
         "wires": [
             [
-                "93d9d7231fe88884",
-                "04102f406eb30f5b"
+                "3f4e7b952f09011c",
+                "2a67df9f1db32c74"
             ],
             [
-                "c71ca8772b14093c"
+                "31a266507861a81a"
             ]
         ]
     },
     {
-        "id": "86b8a5ac2ae23171",
+        "id": "419feef3488d1c44",
         "type": "change",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "rules": [
             {
@@ -70,14 +70,14 @@
         "y": 120,
         "wires": [
             [
-                "2c56d4f4582b7f7a"
+                "af51259ca4c7177a"
             ]
         ]
     },
     {
-        "id": "737262d2ab50e841",
+        "id": "54c533279d6f739b",
         "type": "change",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "rules": [
             {
@@ -97,14 +97,14 @@
         "y": 180,
         "wires": [
             [
-                "2c56d4f4582b7f7a"
+                "af51259ca4c7177a"
             ]
         ]
     },
     {
-        "id": "b2d265d2edf2e45d",
+        "id": "8b40ddd73cebcf16",
         "type": "mqtt in",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "topic": "/lv/status",
         "qos": "2",
@@ -117,15 +117,15 @@
         "y": 120,
         "wires": [
             [
-                "86b8a5ac2ae23171",
-                "737262d2ab50e841"
+                "419feef3488d1c44",
+                "54c533279d6f739b"
             ]
         ]
     },
     {
-        "id": "0dfdfa67df624574",
+        "id": "a8f7c8d5488bccb2",
         "type": "mqtt in",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "topic": "/hv/status",
         "qos": "2",
@@ -138,15 +138,15 @@
         "y": 220,
         "wires": [
             [
-                "86b8a5ac2ae23171",
-                "737262d2ab50e841"
+                "419feef3488d1c44",
+                "54c533279d6f739b"
             ]
         ]
     },
     {
-        "id": "0485392c0a0fb6df",
+        "id": "c343150d7bc02677",
         "type": "mqtt out",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "topic": "/lv/cmd/switch/0",
         "qos": "",
@@ -162,9 +162,9 @@
         "wires": []
     },
     {
-        "id": "f8ab4fb45b07455a",
+        "id": "25041a2b0e1a75d2",
         "type": "mqtt out",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "topic": "/hv/cmd/switch/0",
         "qos": "",
@@ -180,9 +180,9 @@
         "wires": []
     },
     {
-        "id": "1d0fbe6f531d2de7",
+        "id": "19fa8ada874b8889",
         "type": "mqtt out",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "topic": "/hv/cmd/setv/0",
         "qos": "",
@@ -198,9 +198,9 @@
         "wires": []
     },
     {
-        "id": "152502976fef3f20",
+        "id": "69220e032e7db1f3",
         "type": "ui_numeric",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "label": "numeric",
         "tooltip": "",
@@ -221,14 +221,14 @@
         "y": 640,
         "wires": [
             [
-                "1d0fbe6f531d2de7"
+                "19fa8ada874b8889"
             ]
         ]
     },
     {
-        "id": "cf88916070f40229",
+        "id": "5ccd31f62944d3cf",
         "type": "change",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "rules": [
             {
@@ -248,17 +248,17 @@
         "y": 560,
         "wires": [
             [
-                "66d01746013ef66c",
-                "152502976fef3f20",
-                "a883d32e825e2965",
-                "11d7c43fd00c90f0"
+                "c4e87412ddee7a14",
+                "69220e032e7db1f3",
+                "be77204cb32a8bac",
+                "a71beb35afaf4c48"
             ]
         ]
     },
     {
-        "id": "e7062b143cf8db9b",
+        "id": "c185cd54f7bf9e0d",
         "type": "debug",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -273,9 +273,9 @@
         "wires": []
     },
     {
-        "id": "4f6abfb61ba5abf9",
+        "id": "39e897cad8b05910",
         "type": "mqtt in",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "topic": "/hv/status",
         "qos": "2",
@@ -288,14 +288,14 @@
         "y": 560,
         "wires": [
             [
-                "cf88916070f40229"
+                "5ccd31f62944d3cf"
             ]
         ]
     },
     {
-        "id": "66d01746013ef66c",
+        "id": "c4e87412ddee7a14",
         "type": "ui_gauge",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "group": "7d0826bf.201e9",
         "order": 4,
@@ -320,9 +320,9 @@
         "wires": []
     },
     {
-        "id": "a883d32e825e2965",
+        "id": "be77204cb32a8bac",
         "type": "ui_chart",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "group": "7d0826bf.201e9",
         "order": 10,
@@ -364,9 +364,9 @@
         ]
     },
     {
-        "id": "cd206f4aabce033a",
+        "id": "8c63cdfe7a2e80f1",
         "type": "change",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "rules": [
             {
@@ -386,17 +386,17 @@
         "y": 480,
         "wires": [
             [
-                "1d078ee7cbd4ed9b",
-                "a6eb65ae7de8dfa2",
-                "f43195ef91742d57",
-                "9f75df8e3a062915"
+                "27420f43746832aa",
+                "08d374d427a50d7a",
+                "90a34dada0c07c93",
+                "241f837f4d4472b7"
             ]
         ]
     },
     {
-        "id": "cca5c94bccaa5c58",
+        "id": "f497533e5ee8f7a0",
         "type": "mqtt out",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "topic": "/lv/cmd/setv/0",
         "qos": "",
@@ -412,9 +412,9 @@
         "wires": []
     },
     {
-        "id": "d2f4d0f81977654b",
+        "id": "7d10c0f7633ffd86",
         "type": "mqtt in",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "topic": "/lv/status",
         "qos": "2",
@@ -427,14 +427,14 @@
         "y": 480,
         "wires": [
             [
-                "cd206f4aabce033a"
+                "8c63cdfe7a2e80f1"
             ]
         ]
     },
     {
-        "id": "1d078ee7cbd4ed9b",
+        "id": "27420f43746832aa",
         "type": "ui_gauge",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "group": "453b130aa9ddfbad",
         "order": 3,
@@ -459,9 +459,9 @@
         "wires": []
     },
     {
-        "id": "a6eb65ae7de8dfa2",
+        "id": "08d374d427a50d7a",
         "type": "ui_numeric",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "label": "numeric",
         "tooltip": "",
@@ -482,14 +482,14 @@
         "y": 440,
         "wires": [
             [
-                "cca5c94bccaa5c58"
+                "f497533e5ee8f7a0"
             ]
         ]
     },
     {
-        "id": "f43195ef91742d57",
+        "id": "90a34dada0c07c93",
         "type": "ui_chart",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "group": "453b130aa9ddfbad",
         "order": 9,
@@ -531,9 +531,9 @@
         ]
     },
     {
-        "id": "93d9d7231fe88884",
+        "id": "3f4e7b952f09011c",
         "type": "ui_switch",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "label": "ON/OFF",
         "tooltip": "",
@@ -560,14 +560,14 @@
         "y": 100,
         "wires": [
             [
-                "0485392c0a0fb6df"
+                "c343150d7bc02677"
             ]
         ]
     },
     {
-        "id": "9f75df8e3a062915",
+        "id": "241f837f4d4472b7",
         "type": "ui_slider",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "label": "slider",
         "tooltip": "",
@@ -587,15 +587,15 @@
         "y": 480,
         "wires": [
             [
-                "cca5c94bccaa5c58",
-                "e7062b143cf8db9b"
+                "f497533e5ee8f7a0",
+                "c185cd54f7bf9e0d"
             ]
         ]
     },
     {
-        "id": "04102f406eb30f5b",
+        "id": "2a67df9f1db32c74",
         "type": "ui_switch",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "label": "ON/OFF",
         "tooltip": "",
@@ -622,14 +622,14 @@
         "y": 160,
         "wires": [
             [
-                "f8ab4fb45b07455a"
+                "25041a2b0e1a75d2"
             ]
         ]
     },
     {
-        "id": "11d7c43fd00c90f0",
+        "id": "a71beb35afaf4c48",
         "type": "ui_slider",
-        "z": "1f13f81bdb95ce4d",
+        "z": "a70d564f299b1a24",
         "name": "",
         "label": "slider",
         "tooltip": "",
@@ -649,8 +649,7 @@
         "y": 580,
         "wires": [
             [
-                "1d0fbe6f531d2de7",
-                "e7062b143cf8db9b"
+                "19fa8ada874b8889"
             ]
         ]
     },
