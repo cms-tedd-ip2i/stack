@@ -59,7 +59,8 @@ services:
       - mosquitto
 
   web_server:
-    image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.1.0
+    # image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.1.0
+    image: webserver_local
     restart: always
     #stdin_open: true
     #tty: true
@@ -67,13 +68,14 @@ services:
     # TODO: setup authentication
     environment:
       - MQTT_HOST=mosquitto
+      - MQTT_PORT=1883
     ports:
       - "8001:8000"
     expose:
       - "8001"
     command: ["uvicorn", "tracker_dcs_web.web_server.app:app", "--host", "0.0.0.0"]
     volumes:
-      - web_server:/code
+      - web_server:/app/files
     depends_on:
       - mosquitto
     
