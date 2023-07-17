@@ -26,16 +26,47 @@ Start the InfluxDB service:
 docker compose up -d influxdb
 ```
 
+Check that influxdb is running with: 
+
+```
+docker compose ps 
+```
+
+If the influxdb container keeps restarting, something is going wrong. 
+Check the logs: 
+
+```
+docker compose logs -f influxdb
+```
+
+If you see: 
+
+```
+stack-influxdb-1  | Error: config name "default" already exists
+```
+
+Then remove the default section from `influxdb/config/influx-configs`: 
+
+```
+[default]
+  url = "http://localhost:8086"
+  token = "LQTfSPzx9pwBMWmOzdhPWiM_vQb7aaO-Qy5uKhEpICs0SuXL4ie40Rv-S2DzkErBevBRk64wsEZ0S_uheZpjxQ=="
+  org = "cms-tedd"
+  active = true
+```
+
+And try again from the beginning of this section
+
 Extract the generated token to later connect to influxdb from telegraf
 and from grafana: 
 
-```bash
+```
 docker exec stack-influxdb-1 influx auth list --user dbuser 
 ```
 
 Create a file named `my.env` with this content (make sure to use your own token): 
 
-```shell  
+```  
 TRACKER_DCS_INFLUXDB_TOKEN=<influxdb_token>
 ```
 
