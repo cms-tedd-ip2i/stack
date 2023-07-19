@@ -164,8 +164,10 @@ To do this, click the share button, and export as JSON.
 which will allow you to select the datasource on the other system.
 
 To import a dashboard, use the Dashboards menu. 
-During the import, you need to update the data source uid so that it matches
-the data source on your system (click update, it will be done automatically).
+
+After the import, you won't see any data plotted in the dashboard panels. 
+You need to open the dashboard panels and reselect InfluxDB as a source. 
+Then wait a bit, and you should see data appear. 
 
 You may commit your dashboards in [../grafana/dashboards](../grafana/dashboards).
 
