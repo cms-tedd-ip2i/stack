@@ -60,7 +60,7 @@ services:
 
   web_server:
     image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.2.0
-    image: webserver_local
+    # image: webserver_local
     restart: always
     #stdin_open: true
     #tty: true
