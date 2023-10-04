@@ -80,8 +80,8 @@ services:
       - mosquitto
 
   labview:
-    # image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.1.0
-    image: webserver_local
+    image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.2.0
+    # image: webserver_local
     restart: always
     command: ["dummy_labview", "http://web_server:8000", "labview/mapping.txt", "labview/header.txt", "labview/measures.txt"]
     depends_on:
