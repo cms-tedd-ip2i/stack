@@ -1,0 +1,211 @@
+#!/usr/bin/env python3
+
+import argparse
+import sys
+import time
+import subprocess
+import json
+import shutil
+import traceback
+from os.path import exists, join, basename
+import paho.mqtt.client as mqtt
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+class Ph2ACFController:
+    def __init__(self, args, mqtt_host):
+        self.args = args
+        self.mqtt_host = mqtt_host
+        self.mqtt_client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+        self.mqtt_client.on_connect = self.on_connect
+        self.mqtt_client.on_message = self.on_message
+        logger.info("Connecting to MQTT broker...")
+        self.mqtt_client.connect(self.mqtt_host, 1883, 60)
+        logger.info("Connected to MQTT broker.")
+        self.mqtt_client.loop_start()
+
+    def on_connect(self, client, userdata, flags, rc, properties=None):
+        if rc == 0:
+            logger.info(f"Connected to MQTT Broker: {self.mqtt_host}")
+            client.subscribe("ph2_acf/commands/#")
+        else:
+            logger.error(f"Failed to connect to MQTT Broker. Return code: {rc}")
+            sys.exit(1)
+
+    def on_message(self, client, userdata, msg):
+        try:
+            logger.info(f"Received message on {msg.topic}: {msg.payload.decode()}")
+
+            if msg.topic == "ph2_acf/commands/configure_fpga":
+                try:
+                    payload = json.loads(msg.payload.decode())
+                    fc7_id = payload.get("fc7_id")
+                    xml_file_path = payload.get("xml_file")
+                    firmware_name = payload.get("firmware_name")
+
+                    if not xml_file_path or not firmware_name:
+                        error_msg = "XML file path or firmware name not provided."
+                        logger.error(error_msg)
+                        self.mqtt_client.publish("ph2_acf/output", error_msg)
+                        return
+
+                    xml_file_dest = self.copy_xml_file(xml_file_path)
+                    firmware_path = join('/opt/data', firmware_name)
+                    if xml_file_dest:
+                        self.configure_fpga(fc7_id, xml_file_dest, firmware_path)
+                except json.JSONDecodeError as e:
+                    logger.error(f"Invalid JSON payload: {e}")
+                    self.mqtt_client.publish("ph2_acf/output", f"Invalid JSON payload: {e}")
+
+            if msg.topic == "ph2_acf/commands/fpga_id":
+                try:
+                    payload = json.loads(msg.payload.decode())
+                    fc7_id = payload.get("fc7_id")
+                    xml_file_path = payload.get("xml_file")
+
+                    if not xml_file_path or not firmware_name:
+                        error_msg = "XML file path or firmware name not provided."
+                        logger.error(error_msg)
+                        self.mqtt_client.publish("ph2_acf/output", error_msg)
+                        return
+
+                    xml_file_dest = self.copy_xml_file(xml_file_path)
+                    firmware_path = join('/opt/data', firmware_name)
+                    if xml_file_dest:
+                        self.calib_fpgaid(fc7_id, xml_file_dest)
+                except json.JSONDecodeError as e:
+                    logger.error(f"Invalid JSON payload: {e}")
+                    self.mqtt_client.publish("ph2_acf/output", f"Invalid JSON payload: {e}")
+        except Exception as e:
+            logger.error(f"Error in on_message: {e}")
+            traceback.print_exc()
+
+    def copy_xml_file(self, xml_file_path):
+        try:
+            if not xml_file_path:
+                error_msg = "XML file path is empty."
+                logger.error(error_msg)
+                self.mqtt_client.publish("ph2_acf/output", error_msg)
+                return None
+
+            xml_filename = basename(xml_file_path)
+            #src_path = join('/shared_xml_files', xml_filename)
+            src_path = join('/opt/data', xml_filename)
+            dest_path = join('/opt/Ph2_ACF/settings', xml_filename)
+
+            if not exists(src_path):
+                error_msg = f"XML file {xml_filename} not found in shared volume."
+                logger.error(error_msg)
+                self.mqtt_client.publish("ph2_acf/output", error_msg)
+                return None
+
+            shutil.copy(src_path, dest_path)
+            logger.info(f"Copied {xml_filename} to {dest_path}")
+            return dest_path
+        except Exception as e:
+            logger.error(f"Error copying XML file: {e}")
+            traceback.print_exc()
+            self.mqtt_client.publish("ph2_acf/output", f"Error copying XML file: {e}")
+            return None
+
+    def configure_fpga(self, fc7_id, xml_file, firmware_name):
+        if not xml_file or not firmware_name:
+            return
+            
+        try:
+            # Check if the firmware is already loaded
+            check_command = f"fpgaconfig -c {xml_file} -l"
+            logger.info(f"Checking loaded firmware: {check_command}")
+            check_result = subprocess.run(check_command, shell=True, check=True, capture_output=True, text=True, executable='/bin/bash')
+            check_output = check_result.stdout
+            logger.info(f"Loaded firmware: {check_output}")
+            
+            # Check if the firmware is already loaded
+            frm_name_bs = firmware_name.split('/')[-1]
+            if frm_name_bs in check_output:
+                logger.info(f"Firmware {firmware_name} is already loaded.")
+                formatted_output = f"<pre>Firmware {firmware_name} is already loaded.</pre>"
+                self.mqtt_client.publish(f"ph2_acf/output/{fc7_id}", formatted_output)
+            else:
+                # Load the firmware
+                load_command = f"fpgaconfig -c {xml_file} -f {firmware_name}.bin -i {frm_name_bs}"
+                logger.info(f"Loading firmware: {load_command}")
+                load_result = subprocess.run(load_command, shell=True, check=True, capture_output=True, text=True, executable='/bin/bash')
+                load_output = load_result.stdout
+                logger.info(f"Firmware load output: {load_output}")
+                formatted_output = f"<pre>{load_output}</pre>"
+                self.mqtt_client.publish(f"ph2_acf/output/{fc7_id}", formatted_output)
+
+            check_command = f"fpgaconfig -c {xml_file} -i {frm_name_bs}"
+            logger.info(f"Uploaded firmware to the {fc7_id}: {check_command}")
+            self.mqtt_client.publish("Command: ", check_command)
+            check_result = subprocess.run(check_command, shell=True, check=True, capture_output=True, text=True, executable='/bin/bash')
+            check_output = check_result.stdout
+            formatted_output = f"<pre>{check_output}</pre>"
+            self.mqtt_client.publish(f"ph2_acf/output/{fc7_id}", formatted_output)
+        except subprocess.CalledProcessError as e:
+            error_output = e.stderr
+            logger.error(f"Error executing command: {error_output}")
+            formatted_error = f"<pre>Error: {error_output}</pre>"
+            self.mqtt_client.publish(f"ph2_acf/output/{fc7_id}", formatted_error)
+        except Exception as e:
+            logger.error(f"Error in configure_fpga: {e}")
+            traceback.print_exc()
+            formatted_error = f"<pre>Error: {e}</pre>"
+            self.mqtt_client.publish(f"ph2_acf/output/{fc7_id}", formatted_error)
+    def calib_fpgaid(self, fc7_id, xml_file):
+        if not xml_file:
+            return
+            
+        try:
+            # Check if the firmware is already loaded
+            check_command = f"runCalibration -f {xml_file} -c LPGBTID"
+            logger.info(f"Running LPGBT ID test: {check_command}")
+            check_result = subprocess.run(check_command, shell=True, check=True, capture_output=True, text=True, executable='/bin/bash')
+            check_output = check_result.stdout
+            formatted_output = f"<pre>{check_output}</pre>"
+            self.mqtt_client.publish(f"ph2_acf/output/{fc7_id}", formatted_output)            
+        except subprocess.CalledProcessError as e:
+            error_output = e.stderr
+            logger.error(f"Error executing command: {error_output}")
+            formatted_error = f"<pre>Error: {error_output}</pre>"
+            self.mqtt_client.publish(f"ph2_acf/output/{fc7_id}", formatted_error)
+        except Exception as e:
+            logger.error(f"Error in configure_fpga: {e}")
+            traceback.print_exc()
+            formatted_error = f"<pre>Error: {e}</pre>"
+            self.mqtt_client.publish(f"ph2_acf/output/{fc7_id}", formatted_error)
+
+    def run(self):
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            logger.info("Stopping...")
+        except Exception as e:
+            logger.error(f"Error in run: {e}")
+            traceback.print_exc()
+        finally:
+            self.mqtt_client.loop_stop()
+            self.mqtt_client.disconnect()
+
+def main():
+    try:
+        parser = argparse.ArgumentParser(description="Ph2_ACF Controller")
+        args, unknown = parser.parse_known_args()
+
+        mqtt_host = "mosquitto"
+
+        ph2_acf_controller = Ph2ACFController(args, mqtt_host)
+        ph2_acf_controller.run()
+    except Exception as e:
+        logger.error(f"Error in main: {e}")
+        traceback.print_exc()
+        sys.exit(1)
+
+if __name__ == "__main__":
+    logger.info("Starting Ph2_ACF Controller...")
+    main()

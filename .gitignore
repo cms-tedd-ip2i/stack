@@ -133,3 +133,12 @@ dmypy.json
 .idea
 */influx-configs
 *.DS_Store
+
+# Node-RED sensitive files
+node-red/data/flows_cred.json
+node-red/data/.config.runtime.json
+
+# Ph2_ACF reproducibility: Ignore all generated files/folders except config XMLs
+ph2_acf/settings/**
+!ph2_acf/settings/
+!ph2_acf/settings/**/*.xml

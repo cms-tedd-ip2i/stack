@@ -1,3 +1,4 @@
+
 version: "3"
 services:
 
@@ -49,28 +50,49 @@ services:
       - influxdb
     volumes:
       - grafana:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
   nodered:
     build: ./node-red
     ports:
       - "1880:1880"
     volumes:
-      - nodered:/data
+      - ./node-red/data:/data
+      - ../config_files:/usr/src/node-red/files
+      - shared_ph2acf_files:/shared_ph2acf_files
     depends_on: 
       - mosquitto
 
+  ph2_acf:
+    image: arnab-ph2-acf-env:latest
+    #container_name: ph2_acf
+    restart: always
+    volumes:
+      - ph2_acf_volume:/opt/Ph2_ACF
+      - ./ph2_acf/settings:/opt/Ph2_ACF/settings/
+      - shared_ph2acf_files:/shared_ph2acf_files  # Shared volume for XML files
+    networks:
+      - default
+    depends_on:
+      - mosquitto
+    environment:
+      - MQTT_BROKER=mosquitto
+      - PYTHONUNBUFFERED=1
+
   web_server:
-    image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.2.0
+    #image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.2.1
+    image: webtest
     # image: webserver_local
     restart: always
-    #stdin_open: true
-    #tty: true
+    stdin_open: true
+    tty: true
     # port must be open even in production as it's a webserver open to outside
     # TODO: setup authentication
     environment:
       - MQTT_HOST=mosquitto
       - MQTT_PORT=1883
     ports:
-      - "8001:8000"
+      - "5000:8000"
     expose:
       - "8000"
     command: ["uvicorn", "tracker_dcs_web.web_server.app:app", "--host", "0.0.0.0"]
@@ -79,41 +101,62 @@ services:
     depends_on:
       - mosquitto
 
-  labview:
-    image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.2.0
-    # image: webserver_local
-    restart: always
-    command: ["dummy_labview", "http://web_server:8000", "labview/mapping.txt", "labview/header.txt", "labview/measures.txt"]
-    depends_on:
-      - web_server
+  #labview:
+  #image: ghcr.io/cms-tedd-ip2i/tracker_dcs_web:0.2.0
+  #  image: webtest
+  # image: webserver_local
+  #  restart: always
+  #  command: ["dummy_labview", "http://web_server:8000", "dummy_labview/mapping.txt", "dummy_labview/header.txt", "dummy_labview/measures.txt"]
+  #  depends_on:
+  #    - web_server
 
     
-  low_voltage:
-    image: ghcr.io/cms-tedd-ip2i/low_voltage:0.0.1
+  #low_voltage:
+  #  image: ghcr.io/cms-tedd-ip2i/low_voltage:0.0.1
+  #  platform: linux/amd64
+  #  command: ['python3', 'hmp.py', 'lw_volt', 'mosquitto']
+  #  depends_on:
+  #    - mosquitto
+
+
+  caen_hvps:
+    #image: centos:caen_hvps_test
+    image: almalinux:caen_hvps_test
     platform: linux/amd64
-    command: ['python3', 'hmp.py', 'lw_volt', 'mosquitto']
+    restart: always
+    stdin_open: true
     depends_on:
       - mosquitto
+    command: [ 'python3', 'control_ps.py', 'SY4527', 'mosquitto']
 
-  # Dummy modules for testing
-  hv:
-    image: ghcr.io/cms-tedd-ip2i/dummy:0.0.1
-    platform: linux/amd64
-    links:
+  # Simulators for Laptop Development
+  caen_dummy:
+    build: ./dummy
+    command: python caen_sim.py
+    depends_on:
       - mosquitto
-    command: [ 'python', 'dummy/hv.py', 'hv', 'mosquitto' ]
-  lv:
-    image: ghcr.io/cms-tedd-ip2i/dummy:0.0.1
-    platform: linux/amd64
-    links:
+    restart: always
+
+  ph2_acf_dummy:
+    build: ./dummy
+    command: python ph2_acf_sim.py
+    depends_on:
       - mosquitto
-    command: [ 'python', 'dummy/hv.py', 'lv', 'mosquitto' ]
-  sensor_1:
-    image: ghcr.io/cms-tedd-ip2i/dummy:0.0.1
-    platform: linux/amd64
-    links:
-      - mosquitto
-    command: [ 'python', 'dummy/sensor.py', 'sensor_1', 'mosquitto' ]
+    restart: always
+
+  # Original dummy modules...
+  #lv:
+  #  image: ghcr.io/cms-tedd-ip2i/dummy:0.0.1
+  #  platform: linux/amd64
+  #  links:
+  #    - mosquitto
+  #  command: [ 'python', 'dummy/hv.py', 'lv', 'mosquitto' ]
+  #sensor_1:
+  #  image: ghcr.io/cms-tedd-ip2i/dummy:0.0.1
+  #  platform: linux/amd64
+  #  links:
+  #    - mosquitto
+  #  command: [ 'python', 'dummy/sensor.py', 'sensor_1', 'mosquitto' ]
 
 volumes:
   mosquitto_data:
@@ -122,6 +165,6 @@ volumes:
   telegraf.conf:
   grafana:
   nodered:
+  ph2_acf_volume:
+  shared_ph2acf_files:
   web_server:
-
-

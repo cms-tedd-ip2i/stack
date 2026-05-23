@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Source the necessary scripts
+export LD_LIBRARY_PATH=/opt/cactus/lib:$LD_LIBRARY_PATH
+export PATH=/opt/cactus/bin:/usr/local/bin:$PATH
+controlhub_start
+source /opt/Ph2_ACF/setup.sh
+
+# Run the Python script
+exec python3 /opt/daq_lyon.py

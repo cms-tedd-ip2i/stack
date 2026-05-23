@@ -4,8 +4,10 @@ FROM nodered/node-red
 # of your added modules for Node-RED
 
 RUN npm install \
-  node-red/node-red-dashboard  
-  
+  node-red/node-red-dashboard \
+  apexcharts \
+  js-yaml
+    
 # Copy _your_ Node-RED project files into place
 # COPY settings.js /data/settings.js
 # COPY flows_cred.json /data/flows_cred.json

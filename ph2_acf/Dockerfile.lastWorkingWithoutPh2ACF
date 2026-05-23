@@ -1,0 +1,32 @@
+# Use AlmaLinux 9 as the base image
+FROM almalinux:9 as builder
+
+# Set environment variables
+ENV PH2_ACF_VERSION=v4-05
+
+# Install dnf-plugins-core for config-manager
+RUN dnf install -y dnf-plugins-core && \
+    dnf config-manager --set-enabled crb && \
+    dnf install -y epel-release && \
+    rm -rf /var/cache/dnf
+
+# Update and install basic dependencies
+RUN dnf update -y && \
+    dnf install -y boost-devel pugixml-devel json-devel \
+    bzip2-devel xz-devel zlib-devel libzstd-devel \
+    git wget tar gzip make gcc gcc-c++ cmake \
+    python3 python3-devel python3-pip \
+    unzip which sudo git-extras clang-tools-extra \
+    libusb-devel xorg-x11-xauth.x86_64 && \
+    rm -rf /var/cache/dnf
+
+# Add Erlang repository and install Erlang using RabbitMQ's official script
+RUN curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash && \
+    dnf install -y erlang && \
+    rm -rf /var/cache/dnf
+
+# Disable GPG check for rabbitmq_erlang to avoid conflicts
+RUN sed -i 's/gpgcheck=1/gpgcheck=0/' /etc/yum.repos.d/rabbitmq_erlang.repo
+
+# Stop here for now
+# The rest of the installation will be done interactively

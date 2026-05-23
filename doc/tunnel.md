@@ -69,15 +69,25 @@ from the browser of your local machine outside the lab.
 
 For this, just go to [http://localhost:3002](http://localhost:3002)
 
+**Note:** If you get an error `bind [127.0.0.1]:3002: Address already in use`, it means your local machine is already using that port. Simply change the first number to something else:
+
+```bash
+ssh -L 3005:lyovis12:3001 lyoserv.in2p3.fr
+```
+Then access via `http://localhost:3005`.
+
 
 ## Forward several ports 
 
-You can forward several ports in one go to access different services.
-For example, we can forward both the grafana and nodered ports by doing: 
+You can forward several ports in one go to access Grafana (3001) and Node-RED (1880): 
 
-```bash 
-
+```bash
+ssh -L 3001:localhost:3001 -L 1880:localhost:1880 lyoserv.in2p3.fr
 ```
 
-
-
+## Querying Grafana via CLI (Inside the Lab)
+If you are logged into the host via SSH, you can list dashboards using the API:
+```bash
+curl -u admin:admin http://localhost:3001/api/search?type=dash-db
+```
+```

@@ -72,6 +72,15 @@ TRACKER_DCS_INFLUXDB_TOKEN=<influxdb_token>
 
 **WARNING: do not commit this file to git, for security reasons.**
 
+## Restoring InfluxDB Data (e.g., after OS upgrade)
+
+If you have a backup folder, you can restore it with: 
+
+```bash
+docker exec -it stack-influxdb-1 influx restore /var/lib/influxdb2/backup \
+  --token <your_token>
+```
+
 ## Start the stack together with the dummy services 
 
 ```
@@ -110,4 +119,14 @@ On the DAQ PC however, the container must be running.
 * [Grafana](doc/grafana.md): The dashboard system
 * [Nodered](doc/nodered.md): To be written...
 
+## Development and Testing
 
+### Ph2_ACF Configuration
+The XML configuration files for Ph2_ACF are stored in `./ph2_acf/settings`. These are mapped to `/opt/Ph2_ACF/settings` in the container.
+
+### Running Unit Tests
+We use `pytest` for testing the stack's auxiliary scripts.
+```bash
+pip install --user pytest
+python3 -m pytest test_reproducibility.py test_grafana_export.py
+```
